@@ -527,3 +527,8 @@ mark{background:linear-gradient(transparent 55%,#FFD3E3 55%);color:inherit}
 .ig__shot img{width:100%;height:auto;border-radius:10px}
 .ig__tags{display:flex;flex-wrap:wrap;gap:6px}
 .ig__tags span{background:var(--ink);color:#fff;border-radius:999px;padding:5px 11px;font-size:12.5px}
+
+.about-org{background:#fff;border-radius:18px;padding:16px 18px;border-left:5px solid var(--purple)}
+.about-org small{display:block;font:600 11.5px var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--purple);margin-bottom:4px}
+.about-org p{font-size:15px;color:var(--ink-2)}
+.about-org b{color:var(--ink)}

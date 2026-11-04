@@ -162,10 +162,9 @@
       { img: 'seuxe-13', stk: '65% come back 💌', t: 'Client return rate — built on care from first DM to final gallery.' },
       { img: 'seuxe-16', h: 'End-to-end', t: 'Social strategy · client acquisition · styling · shoot coordination · post-production.' },
       { img: 'seuxe-14', h: 'See the grid ↓', t: 'Scroll to the Studio tab for more work.' } ] },
-    ehub: { name: 'ehub.ftu2', av: 'ehub-poster', slides: [
-      { img: 'ehub-poster', stk: 'Marketing Manager 🚀', t: 'EHub — the startup community of Foreign Trade University · 2023 — 2024' },
-      { img: 'ehub-backdrop', stk: '+1,252.9% engagement', g: 1, t: '30-day growth — plus 26,953 views (+209.7%) and 20,463 followers (+31.8%).' },
-      { img: 'yl-team', h: '22K avg views / post', t: 'Content, visual identity, posters and promo materials for events and campaigns.' } ] },
+    ehub: { name: 'ehub.ftu2', av: 'ehub-mockup', slides: [
+      { img: 'ehub-mockup', stk: 'Marketing Manager 🚀', t: 'EHub — the official startup community of Foreign Trade University. Nurturing student founders and connecting them with investors and partners.' },
+      { img: 'yl-team', stk: '+1,252.9% engagement', g: 1, t: '30-day growth, plus 26,953 views (+209.7%), 20,463 followers (+31.8%) and 22K average views per post.' } ] },
     ic23: { name: 'reveal.the.elementals', av: 'ic-square', slides: [
       { img: 'ic-square', stk: 'Reveal the Elementals ⏳', t: 'Ideation Challenge 2023 — a business case competition for freshmen about new product launching.' },
       { img: 'ic-banner', h: 'Key visual & media assets', t: 'Banners, avatars, content timeline and the full marketing master plan.' },
