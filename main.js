@@ -153,10 +153,10 @@
       { video: 'assets/lya-deloitte.mp4', img: 'lya-deloitte', h: 'Always out & about 📍', t: 'Curious about people, brands and what’s next.' },
       { img: 'seuxe-12', h: 'What I love', t: 'Turning people insights into ideas, strategies and stories — marketing, research, content & design.' } ] },
     cconcept: { name: 'c.concept.studio', emoji: '🧸', slides: [
-      { card: '<span class="sc__emo">🧸</span><small>Marketing Intern · 2025</small><h3>A London art toy, heading to Vietnam</h3><p>I helped plan the brand’s communications and analyse the Vietnamese market for its expansion.</p>' },
+      { card: '<span class="sc__emo">🧸</span><small>Marketing Intern · 2025</small><h3>A London art toy, heading to Vietnam</h3><p>Vietnam market analysis, communication planning and ideas for a new product line.</p>' },
       { card: '<small>The market</small><b class="sc__big">+665%</b><p>Labubu-related sales on Vietnamese e-commerce, Q2 vs Q1 2024. The toy market hit $1.004B.</p>', alt: 1 },
       { card: '<small>The new buyer</small><h3>19–25 · student · gift-giver</h3><p>Loves cute animal designs (55%), buys as gifts (47%), lives on TikTok (82%).</p>' },
-      { card: '<small>The plan</small><h3>“Exceed, hit WOW.”</h3><p>3 months: spark curiosity → build value → personalise. Up to 5M views and 25K new followers.</p>', alt: 1 } ] },
+      { img: 'newline-sketches', h: 'New product line ideas ✏️', t: 'I led ideas for a new line: personality-based figure sub-types and lucky-cat inspired designs, built from what Vietnamese buyers love.' } ] },
     seuxe: { name: 'seuxe.studio', av: 'seuxe-13', slides: [
       { img: 'seuxe-09', stk: '200+ shoots 📸', g: 1, t: 'Co-founded an online studio for outdoor & personal photoshoots.' },
       { img: 'seuxe-13', stk: '65% come back 💌', t: 'Client return rate — built on care from first DM to final gallery.' },
