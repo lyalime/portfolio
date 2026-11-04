@@ -74,7 +74,7 @@
     $$('.slide img', car).forEach(img => {
       const fit = () => {
         const r = img.naturalHeight / img.naturalWidth;
-        if (r > 1.05) img.parentElement.classList.add('cover');
+        if (r > 1.18) img.parentElement.classList.add('cover');
         else if (r < 0.34) img.parentElement.classList.add('strip');
       };
       img.complete ? fit() : img.addEventListener('load', fit);
@@ -170,10 +170,10 @@
     ic23: { name: 'reveal.the.elementals', av: 'ic-square', slides: [
       { img: 'ic-mockup', stk: 'Reveal the Elementals ⏳', t: 'Ideation Challenge 2023 — EHub’s business case competition for first-year students. Teams of 3, a real brief, 48 hours, one infographic.' },
       { card: '<small>The results</small><b class="sc__big">95%</b><p>of applicants went on to compete. +40% brand awareness, 80%+ retention, 100% application KPI and 20+ media partners.</p>', alt: 1 } ] },
-    yl: { name: 'youpreneur.launchpad', av: 'yl-kv-2', slides: [
-      { img: 'yl-kv-2', stk: 'Core team ⬡', t: 'Youpreneur Launchpad 2024 — content creator, photographer & designer.' },
-      { img: 'yl-recruit', h: 'Innovation beyond limit', t: 'Community pages that reached 11,000+ views and 14,000+ page likes.' },
-      { img: 'yl-event', stk: '12,000+ followers', g: 1, t: '1,000+ avg views · 80+ interactions/post · 10+ media partners.' } ] },
+    yl: { name: 'youpreneur.launchpad', av: 'yl24-kv', slides: [
+      { img: 'yl24-kv', stk: 'Youpreneur Launchpad 2024 ⬡', t: 'EHub’s incubation program for students: idea to prototype in 3 stages, top 3 into the ESC incubator.' },
+      { img: 'yl24-startxtech', h: 'It started with StartXTech', t: 'A warm-up workshop on startups and new technology, co-hosted with GFI Group and NEAR Vietnam Hub.' },
+      { img: 'yl24-recruit', stk: 'Stage-by-stage plans 🗂️', g: 1, t: 'Masterplans, a daily posting calendar, seeding, email and media partners. 12,000+ followers and 10+ media partners.' } ] },
     awards: { name: 'lya.nguyen', av: 'lya-avatar', slides: [
       { img: 'lya-neon', stk: 'Best Graduation Thesis 🏆', g: 1, t: 'Ming Chuan University, 2026 — highest score in the department.' },
       { img: 'cert-nccu-champion', stk: 'First Prize 🥇', t: 'NCCU International Trade & Business Thematic Competition.' },
