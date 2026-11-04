@@ -154,6 +154,11 @@
       { img: 'about-story-3', h: 'Curious by nature 💭', t: 'I love the patterns behind people’s choices, and turning those insights into ideas, strategies and stories.' },
       { img: 'about-story-4', h: 'Vietnam → Taiwan → the world 🌏', t: 'Studied in Ho Chi Minh City and Taipei, and worked with teams in London and around the globe.' },
       { img: 'about-story-5', h: 'Always exploring 📍', t: 'Marketing, research, content and design. The best ideas often begin with curiosity.' } ] },
+    awards: { name: 'lya.nguyen', av: 'lya-avatar', slides: [
+      { img: 'cert-best-thesis', contain: 1, stk: 'Best Graduation Thesis 🏆', g: 1, t: 'Ming Chuan University Research Excellence Award, 2026: the highest-scoring graduation thesis in the Department of International Business.' },
+      { img: 'cert-nccu-champion', stk: 'First Prize 🥇', t: 'NCCU International Trade & Business Thematic Competition.' },
+      { img: 'cert-gitm', h: 'GITM 2025 presenter', t: 'Blockchain vs. greenwashing perception in fashion brands.' },
+      { img: 'cert-competition', h: 'NSTC Research Grant', t: 'Top 15 of 139 proposals university-wide.' } ] },
     cconcept: { name: 'c.concept.studio', emoji: '🧸', slides: [
       { card: '<span class="sc__emo">🧸</span><small>Marketing Intern · 2025</small><h3>A London art toy, heading to Vietnam</h3><p>Vietnam market analysis, communication planning and ideas for a new product line.</p>' },
       { card: '<small>The market</small><b class="sc__big">$1.004B</b><p>Vietnam’s toy market in 2024, with the art-toy and blind-box trend booming on Shopee and TikTok Shop.</p>', alt: 1 },
@@ -173,12 +178,7 @@
     yl: { name: 'youpreneur.launchpad', av: 'yl24-kv', slides: [
       { img: 'yl24-kv', stk: 'Youpreneur Launchpad 2024 ⬡', t: 'EHub’s incubation program for students: idea to prototype in 3 stages, top 3 into the ESC incubator.' },
       { img: 'yl24-startxtech', h: 'It started with StartXTech', t: 'A warm-up workshop on startups and new technology, co-hosted with GFI Group and NEAR Vietnam Hub.' },
-      { img: 'yl24-recruit', stk: 'Stage-by-stage plans 🗂️', g: 1, t: 'Masterplans, a daily posting calendar, seeding, email and media partners. 12,000+ followers and 10+ media partners.' } ] },
-    awards: { name: 'lya.nguyen', av: 'lya-avatar', slides: [
-      { img: 'lya-neon', stk: 'Best Graduation Thesis 🏆', g: 1, t: 'Ming Chuan University, 2026 — highest score in the department.' },
-      { img: 'cert-nccu-champion', stk: 'First Prize 🥇', t: 'NCCU International Trade & Business Thematic Competition.' },
-      { img: 'cert-gitm', h: 'GITM 2025 presenter', t: 'Blockchain vs. greenwashing perception in fashion brands.' },
-      { img: 'cert-competition', h: 'NSTC Research Grant', t: 'Top 15 of 139 proposals university-wide.' } ] }
+      { img: 'yl24-recruit', stk: 'Stage-by-stage plans 🗂️', g: 1, t: 'Masterplans, a daily posting calendar, seeding, email and media partners. 12,000+ followers and 10+ media partners.' } ] }
   };
   const ORDER = Object.keys(STORIES);
   const story = $('.story'), bars = $('.story__bars', story), media = $('.story__media', story),
@@ -200,7 +200,7 @@
     bars.innerHTML = s.slides.map((_, i) => `<i class="${i < si ? 'done' : i === si ? 'run' : ''}"><b></b></i>`).join('');
     bars.style.setProperty('--dur', DUR + 'ms');
     media.classList.remove('cover');
-    sImg.onload = () => { if (sImg.naturalHeight / sImg.naturalWidth > 1.2) media.classList.add('cover'); };
+    sImg.onload = () => { if (!sl.contain && sImg.naturalHeight / sImg.naturalWidth > 1.2) media.classList.add('cover'); };
     if (sl.img) { sImg.src = IMG(sl.img); sImg.alt = sl.h || sl.stk || ''; }
     sVid.hidden = !sl.video; sImg.hidden = !!(sl.video || sl.card);
     sCard.hidden = !sl.card; sBg.hidden = !!sl.card;
