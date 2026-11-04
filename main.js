@@ -87,6 +87,8 @@
       if (dotsBox) $$('i', dotsBox).forEach((d, i) => d.classList.toggle('on', i === idx));
     };
     track.addEventListener('scroll', () => requestAnimationFrame(update), { passive: true });
+    update();
+    if (names.length < 2) { cnt.hidden = true; prev.hidden = true; next.hidden = true; }
     prev.addEventListener('click', () => track.scrollBy({ left: -track.clientWidth }));
     next.addEventListener('click', () => track.scrollBy({ left: track.clientWidth }));
     // single tap → lightbox, double tap → like
@@ -166,9 +168,8 @@
       { img: 'ehub-mockup', stk: 'Marketing Manager 🚀', t: 'EHub — the official startup community of Foreign Trade University. Nurturing student founders and connecting them with investors and partners.' },
       { img: 'yl-team', stk: '+1,252.9% engagement', g: 1, t: '30-day growth, plus 26,953 views (+209.7%), 20,463 followers (+31.8%) and 22K average views per post.' } ] },
     ic23: { name: 'reveal.the.elementals', av: 'ic-square', slides: [
-      { img: 'ic-square', stk: 'Reveal the Elementals ⏳', t: 'Ideation Challenge 2023 — a business case competition for freshmen about new product launching.' },
-      { img: 'ic-banner', h: 'Key visual & media assets', t: 'Banners, avatars, content timeline and the full marketing master plan.' },
-      { img: 'cert-ic-1', stk: '95% showed up', g: 1, t: '+40% brand awareness · 80%+ retention · 100% application KPI · 20+ media partners.' } ] },
+      { img: 'ic-mockup', stk: 'Reveal the Elementals ⏳', t: 'Ideation Challenge 2023 — EHub’s business case competition for first-year students. Teams of 3, a real brief, 48 hours, one infographic.' },
+      { card: '<small>The results</small><b class="sc__big">95%</b><p>of applicants went on to compete. +40% brand awareness, 80%+ retention, 100% application KPI and 20+ media partners.</p>', alt: 1 } ] },
     yl: { name: 'youpreneur.launchpad', av: 'yl-kv-2', slides: [
       { img: 'yl-kv-2', stk: 'Core team ⬡', t: 'Youpreneur Launchpad 2024 — content creator, photographer & designer.' },
       { img: 'yl-recruit', h: 'Innovation beyond limit', t: 'Community pages that reached 11,000+ views and 14,000+ page likes.' },
