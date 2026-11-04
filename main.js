@@ -149,11 +149,11 @@
   /* ---------- stories ---------- */
   const STORIES = {
     about: { name: 'lya.nguyen', av: 'lya-avatar', slides: [
-      { img: 'lya-neon', stk: 'Hi, I’m Lya 👋', t: 'A globally curious creative with a business mind.' },
-      { img: 'lya-sun', stk: 'Class of ’26 🎓', g: 1, t: 'International Business & Trade — Ming Chuan University, Taipei. GPA 90/100 and the highest-scoring thesis in the department.' },
-      { img: 'lya-saigon', h: 'VN → TW → the world 🌏', t: 'Studied in Ho Chi Minh City and Taipei, worked with teams in London and around the globe.' },
-      { video: 'assets/lya-deloitte.mp4', img: 'lya-deloitte', h: 'Always out & about 📍', t: 'Curious about people, brands and what’s next.' },
-      { img: 'seuxe-12', h: 'What I love', t: 'Turning people insights into ideas, strategies and stories — marketing, research, content & design.' } ] },
+      { img: 'about-story-1', stk: 'Hi, I’m Lya 👋', t: 'A globally curious creative with a business mind.' },
+      { img: 'about-story-2', stk: 'Class of ’26 🎓', g: 1, t: 'International Business & Trade at Ming Chuan University, Taipei. GPA 90/100 and the highest-scoring thesis in the department.' },
+      { img: 'about-story-3', h: 'Curious by nature 💭', t: 'I love the patterns behind people’s choices, and turning those insights into ideas, strategies and stories.' },
+      { img: 'about-story-4', h: 'Vietnam → Taiwan → the world 🌏', t: 'Studied in Ho Chi Minh City and Taipei, and worked with teams in London and around the globe.' },
+      { img: 'about-story-5', h: 'Always exploring 📍', t: 'Marketing, research, content and design. The best ideas often begin with curiosity.' } ] },
     cconcept: { name: 'c.concept.studio', emoji: '🧸', slides: [
       { card: '<span class="sc__emo">🧸</span><small>Marketing Intern · 2025</small><h3>A London art toy, heading to Vietnam</h3><p>Vietnam market analysis, communication planning and ideas for a new product line.</p>' },
       { card: '<small>The market</small><b class="sc__big">$1.004B</b><p>Vietnam’s toy market in 2024, with the art-toy and blind-box trend booming on Shopee and TikTok Shop.</p>', alt: 1 },
