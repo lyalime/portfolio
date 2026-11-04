@@ -2,113 +2,238 @@
   const $ = (s, el = document) => el.querySelector(s);
   const $$ = (s, el = document) => [...el.querySelectorAll(s)];
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  /* ---------- nav ---------- */
-  const nav = $('.nav'), burger = $('.nav__burger');
-  burger.addEventListener('click', () => {
-    const open = nav.classList.toggle('open');
-    burger.setAttribute('aria-expanded', open);
-  });
-  $$('.nav__links a').forEach(a => a.addEventListener('click', () => {
-    nav.classList.remove('open'); burger.setAttribute('aria-expanded', false);
-  }));
-
-  /* ---------- scroll progress ---------- */
-  const bar = $('.progress');
-  const onScroll = () => {
-    const h = document.documentElement;
-    bar.style.transform = `scaleX(${h.scrollTop / (h.scrollHeight - h.clientHeight || 1)})`;
-  };
-  addEventListener('scroll', onScroll, { passive: true }); onScroll();
-
-  /* ---------- reveal + counters ---------- */
+  const IMG = n => `assets/img/${n}.jpg`;
   const fmt = n => n.toLocaleString('en-US');
-  const count = el => {
-    const end = +el.dataset.count, suf = el.dataset.suffix || '';
-    if (reduce) { el.textContent = fmt(end) + suf; return; }
-    const t0 = performance.now(), dur = 1600;
-    const tick = t => {
-      const p = Math.min((t - t0) / dur, 1), e = 1 - Math.pow(1 - p, 4);
-      el.textContent = fmt(Math.round(end * e)) + suf;
-      if (p < 1) requestAnimationFrame(tick);
-    };
-    requestAnimationFrame(tick);
+
+  /* ---------- clock in status bar (Taipei time) ---------- */
+  const clock = $('.clock');
+  const tick = () => {
+    try { clock.textContent = new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Taipei' }).format(new Date()); } catch {}
   };
-  const io = new IntersectionObserver(entries => {
-    entries.forEach(en => {
-      if (!en.isIntersecting) return;
-      en.target.classList.add('in');
-      $$('[data-count]', en.target).forEach(count);
-      io.unobserve(en.target);
-    });
-  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-  $$('.reveal').forEach(el => io.observe(el));
-
-  /* ---------- Sếu Xê photo wall ---------- */
-  const shots = [
-    ['seuxe-09', 'post office mornings'], ['seuxe-12', 'golden hour', 1], ['seuxe-06', 'temple light'],
-    ['seuxe-14', 'riverside'], ['seuxe-13', 'áo dài season'], ['seuxe-07', 'street cool'],
-    ['seuxe-00', 'empty stadium', 1], ['seuxe-03', 'olive & pearls'], ['seuxe-08', 'into the woods'],
-    ['seuxe-17', 'polka dots'], ['seuxe-05', 'besties'], ['seuxe-15', 'campus days', 1],
-    ['seuxe-16', 'in red'], ['seuxe-04', 'turning 20'], ['seuxe-18', 'family portrait'],
-    ['seuxe-01', 'track day']
-  ];
-  const wall = $('[data-wall]');
-  if (wall) {
-    shots.forEach(([f, cap, land], i) => {
-      const fig = document.createElement('figure');
-      fig.className = 'print' + (land ? ' land' : '');
-      fig.innerHTML = `<img src="assets/img/${f}.jpg" alt="Sếu Xê Studio photoshoot — ${cap}" loading="lazy" draggable="false"><span>${cap}</span>`;
-      const cols = 6, col = i % cols, row = Math.floor(i / cols);
-      fig.style.left = `${2 + col * 15.5 + (Math.random() * 4 - 2)}%`;
-      fig.style.top = `${4 + row * 27 + (Math.random() * 6 - 2)}%`;
-      fig.style.rotate = `${(Math.random() * 16 - 8).toFixed(1)}deg`;
-      fig.style.zIndex = i + 1;
-      fig.dataset.full = `assets/img/${f}.jpg`;
-      wall.appendChild(fig);
-    });
-
-    let z = 100;
-    const desktop = () => matchMedia('(min-width: 721px)').matches;
-    $$('.print', wall).forEach(p => {
-      let sx, sy, ox, oy, moved = false, active = false;
-      p.addEventListener('pointerdown', e => {
-        if (!desktop()) return;
-        active = true; moved = false;
-        p.setPointerCapture(e.pointerId);
-        sx = e.clientX; sy = e.clientY; ox = p.offsetLeft; oy = p.offsetTop;
-        p.style.zIndex = ++z; p.classList.add('dragging');
-      });
-      p.addEventListener('pointermove', e => {
-        if (!active) return;
-        const dx = e.clientX - sx, dy = e.clientY - sy;
-        if (Math.abs(dx) + Math.abs(dy) > 4) moved = true;
-        const maxX = wall.clientWidth - p.offsetWidth, maxY = wall.clientHeight - p.offsetHeight;
-        p.style.left = Math.max(-40, Math.min(maxX + 40, ox + dx)) + 'px';
-        p.style.top = Math.max(-20, Math.min(maxY + 20, oy + dy)) + 'px';
-      });
-      const end = () => {
-        if (!active) return;
-        active = false; p.classList.remove('dragging');
-        if (!moved) openLB(p.dataset.full, p.querySelector('img').alt);
-      };
-      p.addEventListener('pointerup', end);
-      p.addEventListener('pointercancel', () => { active = false; p.classList.remove('dragging'); });
-      p.addEventListener('click', () => { if (!desktop()) openLB(p.dataset.full, p.querySelector('img').alt); });
-    });
-  }
+  tick(); setInterval(tick, 30000);
 
   /* ---------- lightbox ---------- */
   const lb = $('.lightbox'), lbImg = $('img', lb);
-  function openLB(src, alt) {
-    lbImg.src = src; lbImg.alt = alt || '';
-    lb.hidden = false; document.body.style.overflow = 'hidden';
-    $('.lightbox__close').focus();
-  }
-  const closeLB = () => { lb.hidden = true; document.body.style.overflow = ''; lbImg.src = ''; };
+  const openLB = (src, alt) => { lbImg.src = src; lbImg.alt = alt || ''; lb.hidden = false; document.body.style.overflow = 'hidden'; };
+  const closeLB = () => { lb.hidden = true; lbImg.src = ''; if (story.hidden) document.body.style.overflow = ''; };
   lb.addEventListener('click', closeLB);
-  addEventListener('keydown', e => { if (e.key === 'Escape' && !lb.hidden) closeLB(); });
-  $$('[data-zoom]').forEach(img => img.addEventListener('click', () => openLB(img.currentSrc || img.src, img.alt)));
+  $$('[data-zoom]').forEach(i => i.addEventListener('click', () => openLB(i.src, i.alt)));
+
+  /* ---------- counters + reveal ---------- */
+  const count = el => {
+    const end = +el.dataset.count, suf = el.dataset.suffix || '';
+    if (reduce) return;
+    const t0 = performance.now(), dur = 1500;
+    const step = t => {
+      const p = Math.min((t - t0) / dur, 1), e = 1 - Math.pow(1 - p, 4);
+      el.textContent = fmt(Math.round(end * e)) + suf;
+      if (p < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  };
+  const io = new IntersectionObserver(es => es.forEach(en => {
+    if (!en.isIntersecting) return;
+    const t = en.target;
+    if (t.matches('[data-count]')) count(t); else t.classList.add('in');
+    io.unobserve(t);
+  }), { threshold: 0.15 });
+  $$('.reveal, [data-count]').forEach(el => io.observe(el));
+
+  /* ---------- hero reel ---------- */
+  const reel = $$('[data-reel] img');
+  if (reel.length && !reduce) {
+    let r = 0;
+    setInterval(() => { reel[r].classList.remove('on'); r = (r + 1) % reel.length; reel[r].classList.add('on'); }, 3200);
+  }
+
+  /* ---------- heart pop ---------- */
+  const HEART = '<svg viewBox="0 0 24 24" class="heart-pop"><path d="M12 21s-8-4.6-8-11a4.5 4.5 0 018-2.8A4.5 4.5 0 0120 10c0 6.4-8 11-8 11z"/></svg>';
+  const like = (post, force) => {
+    const btn = $('.like', post); if (!btn) return;
+    const on = force ?? !btn.classList.contains('liked');
+    btn.classList.toggle('liked', on);
+    btn.setAttribute('aria-pressed', on);
+  };
+  $$('.like').forEach(b => b.addEventListener('click', () => like(b.closest('[data-post]'))));
+
+  /* ---------- carousels ---------- */
+  $$('.carousel').forEach(car => {
+    const names = car.dataset.images.split(','), alt = car.dataset.alt || '';
+    const post = car.closest('[data-post]');
+    const dotsBox = post && $('.dots-ind', post);
+    car.innerHTML = `<div class="track">${names.map((n, i) =>
+      `<div class="slide" style="--bg-img:url(${IMG(n)})"><img src="${IMG(n)}" alt="${alt} — ${i + 1} of ${names.length}" loading="lazy" draggable="false"></div>`).join('')}</div>
+      <span class="car-count">1/${names.length}</span>
+      <button class="car-btn car-prev" aria-label="Previous image" disabled>‹</button>
+      <button class="car-btn car-next" aria-label="Next image">›</button>`;
+    const track = $('.track', car), cnt = $('.car-count', car), prev = $('.car-prev', car), next = $('.car-next', car);
+    if (dotsBox) dotsBox.innerHTML = names.map((_, i) => `<i class="${i ? '' : 'on'}"></i>`).join('');
+    $$('.slide img', car).forEach(img => {
+      const fit = () => {
+        const r = img.naturalHeight / img.naturalWidth;
+        if (r > 1.05) img.parentElement.classList.add('cover');
+        else if (r < 0.34) img.parentElement.classList.add('strip');
+      };
+      img.complete ? fit() : img.addEventListener('load', fit);
+    });
+    let idx = 0;
+    const update = () => {
+      idx = Math.round(track.scrollLeft / track.clientWidth);
+      cnt.textContent = `${idx + 1}/${names.length}`;
+      prev.disabled = idx === 0; next.disabled = idx === names.length - 1;
+      if (dotsBox) $$('i', dotsBox).forEach((d, i) => d.classList.toggle('on', i === idx));
+    };
+    track.addEventListener('scroll', () => requestAnimationFrame(update), { passive: true });
+    prev.addEventListener('click', () => track.scrollBy({ left: -track.clientWidth }));
+    next.addEventListener('click', () => track.scrollBy({ left: track.clientWidth }));
+    // single tap → lightbox, double tap → like
+    let timer = null;
+    track.addEventListener('click', e => {
+      const slide = e.target.closest('.slide'); if (!slide) return;
+      if (timer) {
+        clearTimeout(timer); timer = null;
+        like(post, true);
+        car.insertAdjacentHTML('beforeend', HEART);
+        const h = car.lastElementChild; setTimeout(() => h.remove(), 950);
+        return;
+      }
+      timer = setTimeout(() => { timer = null; const i = $('img', slide); openLB(i.src, i.alt); }, 260);
+    });
+  });
+
+  /* ---------- studio grid ---------- */
+  const shots = [
+    ['seuxe-09', 'post office mornings'], ['seuxe-13', 'áo dài season'], ['seuxe-06', 'temple light'],
+    ['seuxe-14', 'riverside'], ['seuxe-16', 'in red'], ['seuxe-07', 'street cool'],
+    ['seuxe-03', 'olive & pearls'], ['seuxe-08', 'into the woods'], ['seuxe-17', 'polka dots'],
+    ['seuxe-05', 'besties'], ['seuxe-12', 'golden hour'], ['seuxe-04', 'turning 20'],
+    ['seuxe-11', 'sisters'], ['seuxe-02', 'old town walk'], ['seuxe-18', 'family portrait'],
+    ['seuxe-10', 'together'], ['seuxe-00', 'empty stadium'], ['seuxe-01', 'track day']
+  ];
+  const grid = $('[data-grid]');
+  if (grid) {
+    grid.innerHTML = shots.map(([f, c]) =>
+      `<button class="tile reveal" data-cap="♥ ${c}"><img src="${IMG(f)}" alt="Sếu Xê Studio photoshoot — ${c}" loading="lazy"></button>`).join('');
+    $$('.tile', grid).forEach((t, i) => {
+      t.style.transitionDelay = `${(i % 3) * 80}ms`;
+      io.observe(t);
+      t.addEventListener('click', () => { const im = $('img', t); openLB(im.src, im.alt); });
+    });
+  }
+
+  /* ---------- chat plays out ---------- */
+  const chat = $('[data-chat]');
+  if (chat) {
+    const msgs = $$('.msg:not(.typing)', chat), typing = $('.typing', chat);
+    if (reduce) { msgs.forEach(m => m.classList.add('show')); typing.remove(); }
+    else {
+      typing.classList.add('show');
+      let played = false;
+      new IntersectionObserver((es, ob) => {
+        if (!es[0].isIntersecting || played) return;
+        played = true; ob.disconnect();
+        msgs.forEach((m, i) => setTimeout(() => {
+          m.classList.add('show');
+          if (i === msgs.length - 1) setTimeout(() => typing.remove(), 900);
+        }, 250 + i * 420));
+      }, { threshold: 0.2 }).observe(chat);
+    }
+  }
+
+  /* ---------- stories ---------- */
+  const STORIES = {
+    about: { name: 'lya.nguyen', av: 'lya-portrait', slides: [
+      { img: 'lya-portrait', stk: 'Hi, I\'m Lya 👋', t: 'A globally curious creative with a business mind.' },
+      { img: 'lya-grad', stk: 'Class of ’26 🎓', g: 1, t: 'International Business & Trade — Ming Chuan University, Taipei. GPA 90/100 and the highest-scoring thesis in the department.' },
+      { img: 'seuxe-12', h: 'VN → TW → the world 🌏', t: 'Studied in Ho Chi Minh City and Taipei, worked with teams in London and around the globe.' },
+      { img: 'cc-sketches', h: 'What I love', t: 'Turning people insights into ideas, strategies and stories — marketing, research, content & design.' } ] },
+    cconcept: { name: 'c.concept.studio', av: 'cc-toys-1', slides: [
+      { img: 'cc-toys-1', stk: 'Marketing Intern 🧸', t: 'C-Concept Studio · toy company · London, UK (remote) · Feb — Jun 2025' },
+      { img: 'cc-sketches', h: 'Product ideation', t: 'New toy concepts built from market analysis and consumer-behaviour insights.' },
+      { img: 'cc-plan-1', h: 'Content plan', t: 'Promotional materials and creative assets with one consistent visual brand across platforms.' } ] },
+    seuxe: { name: 'seuxe.studio', av: 'seuxe-13', slides: [
+      { img: 'seuxe-09', stk: '200+ shoots 📸', g: 1, t: 'Co-founded an online studio for outdoor & personal photoshoots.' },
+      { img: 'seuxe-13', stk: '65% come back 💌', t: 'Client return rate — built on care from first DM to final gallery.' },
+      { img: 'seuxe-16', h: 'End-to-end', t: 'Social strategy · client acquisition · styling · shoot coordination · post-production.' },
+      { img: 'seuxe-14', h: 'See the grid ↓', t: 'Scroll to the Studio tab for more work.' } ] },
+    ehub: { name: 'ehub.ftu2', av: 'ehub-poster', slides: [
+      { img: 'ehub-poster', stk: 'Marketing Manager 🚀', t: 'EHub — the startup community of Foreign Trade University · 2023 — 2024' },
+      { img: 'ehub-backdrop', stk: '+1,252.9% engagement', g: 1, t: '30-day growth — plus 26,953 views (+209.7%) and 20,463 followers (+31.8%).' },
+      { img: 'yl-team', h: '22K avg views / post', t: 'Content, visual identity, posters and promo materials for events and campaigns.' } ] },
+    ic23: { name: 'reveal.the.elementals', av: 'ic-square', slides: [
+      { img: 'ic-square', stk: 'Reveal the Elementals ⏳', t: 'Ideation Challenge 2023 — a business case competition for freshmen about new product launching.' },
+      { img: 'ic-banner', h: 'Key visual & media assets', t: 'Banners, avatars, content timeline and the full marketing master plan.' },
+      { img: 'cert-ic-1', stk: '95% showed up', g: 1, t: '+40% brand awareness · 80%+ retention · 100% application KPI · 20+ media partners.' } ] },
+    yl: { name: 'youpreneur.launchpad', av: 'yl-kv-2', slides: [
+      { img: 'yl-kv-2', stk: 'Core team ⬡', t: 'Youpreneur Launchpad 2024 — content creator, photographer & designer.' },
+      { img: 'yl-recruit', h: 'Innovation beyond limit', t: 'Community pages that reached 11,000+ views and 14,000+ page likes.' },
+      { img: 'yl-event', stk: '12,000+ followers', g: 1, t: '1,000+ avg views · 80+ interactions/post · 10+ media partners.' } ] },
+    awards: { name: 'lya.nguyen', av: 'lya-grad', slides: [
+      { img: 'lya-grad', stk: 'Best Graduation Thesis 🏆', g: 1, t: 'Ming Chuan University, 2026 — highest score in the department.' },
+      { img: 'cert-nccu-champion', stk: 'First Prize 🥇', t: 'NCCU International Trade & Business Thematic Competition.' },
+      { img: 'cert-gitm', h: 'GITM 2025 presenter', t: 'Blockchain vs. greenwashing perception in fashion brands.' },
+      { img: 'cert-competition', h: 'NSTC Research Grant', t: 'Top 15 of 139 proposals university-wide.' } ] }
+  };
+  const ORDER = Object.keys(STORIES);
+  const story = $('.story'), bars = $('.story__bars', story), media = $('.story__media', story),
+        sImg = $('img', media), sBg = $('.story__bg', story), sText = $('.story__text', story);
+  let cur = null, si = 0, sTimer = null, lastFocus = null;
+  const DUR = 5200;
+
+  function show() {
+    const s = STORIES[cur], sl = s.slides[si];
+    $('.story__name', story).textContent = s.name;
+    $('.story__head img', story).src = IMG(s.av);
+    $('.story__time', story).textContent = `${si + 1}/${s.slides.length}`;
+    bars.innerHTML = s.slides.map((_, i) => `<i class="${i < si ? 'done' : i === si ? 'run' : ''}"><b></b></i>`).join('');
+    bars.style.setProperty('--dur', DUR + 'ms');
+    media.classList.remove('cover');
+    sImg.onload = () => { if (sImg.naturalHeight / sImg.naturalWidth > 1.2) media.classList.add('cover'); };
+    sImg.src = IMG(sl.img); sImg.alt = sl.h || sl.stk || '';
+    sBg.style.backgroundImage = `url(${IMG(sl.img)})`;
+    sText.innerHTML = (sl.stk ? `<span class="stk ${sl.g ? 'g' : ''}">${sl.stk}</span>` : '') + (sl.h ? `<h3>${sl.h}</h3>` : '') + `<p>${sl.t}</p>`;
+    clearTimeout(sTimer);
+    sTimer = setTimeout(go, DUR);
+    $$(`.hl[data-story="${cur}"]`).forEach(h => h.classList.add('seen'));
+  }
+  function go(dir = 1) {
+    const n = STORIES[cur].slides.length;
+    si += dir;
+    if (si >= n) { const k = ORDER.indexOf(cur) + 1; if (k >= ORDER.length) return closeStory(); cur = ORDER[k]; si = 0; }
+    if (si < 0) { const k = ORDER.indexOf(cur) - 1; if (k < 0) { si = 0; } else { cur = ORDER[k]; si = STORIES[cur].slides.length - 1; } }
+    show();
+  }
+  function openStory(key) {
+    cur = key; si = 0; lastFocus = document.activeElement;
+    story.hidden = false; document.body.style.overflow = 'hidden';
+    show(); $('.story__close', story).focus();
+  }
+  function closeStory() {
+    clearTimeout(sTimer); story.hidden = true; document.body.style.overflow = '';
+    if (lastFocus) lastFocus.focus();
+  }
+  $$('[data-story]').forEach(b => b.addEventListener('click', () => openStory(b.dataset.story)));
+  $('.story__close', story).addEventListener('click', closeStory);
+  $('.story__nav--next', story).addEventListener('click', () => go(1));
+  $('.story__nav--prev', story).addEventListener('click', () => go(-1));
+  story.addEventListener('click', e => { if (e.target === story) closeStory(); });
+  addEventListener('keydown', e => {
+    if (!lb.hidden && e.key === 'Escape') return closeLB();
+    if (story.hidden) return;
+    if (e.key === 'Escape') closeStory();
+    if (e.key === 'ArrowRight') go(1);
+    if (e.key === 'ArrowLeft') go(-1);
+  });
+
+  /* ---------- active section in dock + tabs ---------- */
+  const links = $$('.dock a[data-sec]'), tabs = $$('.tabs .tab');
+  const secIO = new IntersectionObserver(es => es.forEach(en => {
+    if (!en.isIntersecting) return;
+    const id = en.target.id;
+    links.forEach(a => a.classList.toggle('active', a.dataset.sec === id || (id === 'studio' && a.dataset.sec === 'work') || (id === 'awards' && a.dataset.sec === 'about')));
+    tabs.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + id));
+  }), { rootMargin: '-45% 0px -50% 0px' });
+  ['top', 'work', 'studio', 'about', 'awards', 'dm'].forEach(id => { const el = document.getElementById(id); if (el) secIO.observe(el); });
 
   /* ---------- copy email ---------- */
   $$('[data-copy]').forEach(btn => btn.addEventListener('click', async () => {
@@ -118,34 +243,15 @@
     setTimeout(() => (label.textContent = 'copy'), 1800);
   }));
 
-  /* ---------- custom cursor ---------- */
-  const cur = $('.cursor');
-  if (matchMedia('(hover: hover) and (pointer: fine)').matches && !reduce) {
-    const lab = $('span', cur);
-    let x = innerWidth / 2, y = innerHeight / 2, cx = x, cy = y;
-    addEventListener('pointermove', e => { x = e.clientX; y = e.clientY; }, { passive: true });
-    (function loop() {
-      cx += (x - cx) * 0.22; cy += (y - cy) * 0.22;
-      cur.style.transform = `translate(${cx}px, ${cy}px)`;
-      requestAnimationFrame(loop);
-    })();
-    document.addEventListener('pointerover', e => {
-      const t = e.target;
-      if (t.closest('.print')) { cur.classList.add('is-big'); lab.textContent = 'DRAG'; }
-      else if (t.closest('[data-zoom]')) { cur.classList.add('is-big'); lab.textContent = 'VIEW'; }
-      else if (t.closest('a, button')) { cur.classList.add('is-big'); lab.textContent = '→'; }
-      else cur.classList.remove('is-big');
+  /* ---------- DM composer → email ---------- */
+  const form = $('[data-composer]');
+  if (form) {
+    const ta = $('textarea', form);
+    $$('[data-q]', form).forEach(b => b.addEventListener('click', () => { ta.value = b.dataset.q; ta.focus(); }));
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const body = ta.value.trim() || 'Hi Lya!';
+      location.href = `mailto:lyanguyen.space@gmail.com?subject=${encodeURIComponent('Hello from your portfolio 💌')}&body=${encodeURIComponent(body)}`;
     });
-  } else cur.remove();
-
-  /* ---------- gentle tilt on cover photo ---------- */
-  const tilt = $('.tilt');
-  if (tilt && !reduce && matchMedia('(hover: hover)').matches) {
-    tilt.addEventListener('pointermove', e => {
-      const r = tilt.getBoundingClientRect();
-      const px = (e.clientX - r.left) / r.width - 0.5, py = (e.clientY - r.top) / r.height - 0.5;
-      tilt.style.transform = `perspective(900px) rotateY(${px * 10}deg) rotateX(${-py * 10}deg) rotate(2deg)`;
-    });
-    tilt.addEventListener('pointerleave', () => (tilt.style.transform = ''));
   }
 })();
