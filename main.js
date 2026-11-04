@@ -156,7 +156,7 @@
       { img: 'seuxe-12', h: 'What I love', t: 'Turning people insights into ideas, strategies and stories — marketing, research, content & design.' } ] },
     cconcept: { name: 'c.concept.studio', emoji: '🧸', slides: [
       { card: '<span class="sc__emo">🧸</span><small>Marketing Intern · 2025</small><h3>A London art toy, heading to Vietnam</h3><p>Vietnam market analysis, communication planning and ideas for a new product line.</p>' },
-      { card: '<small>The market</small><b class="sc__big">+665%</b><p>Labubu-related sales on Vietnamese e-commerce, Q2 vs Q1 2024. The toy market hit $1.004B.</p>', alt: 1 },
+      { card: '<small>The market</small><b class="sc__big">$1.004B</b><p>Vietnam’s toy market in 2024, with the art-toy and blind-box trend booming on Shopee and TikTok Shop.</p>', alt: 1 },
       { card: '<small>The new buyer</small><h3>19–25 · student · gift-giver</h3><p>Loves cute animal designs (55%), buys as gifts (47%), lives on TikTok (82%).</p>' },
       { img: 'newline-sketches', h: 'New product line ideas ✏️', t: 'I led ideas for a new line: personality-based figure sub-types and lucky-cat inspired designs, built from what Vietnamese buyers love.' } ] },
     seuxe: { name: 'seuxe.studio', av: 'seuxe-13', slides: [
