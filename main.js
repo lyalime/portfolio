@@ -58,11 +58,14 @@
 
   /* ---------- carousels ---------- */
   $$('.carousel').forEach(car => {
-    const names = car.dataset.images.split(','), alt = car.dataset.alt || '';
+    const alt = car.dataset.alt || '';
+    const pre = !car.dataset.images;
+    const names = pre ? $$('.slide', car) : car.dataset.images.split(',');
     const post = car.closest('[data-post]');
     const dotsBox = post && $('.dots-ind', post);
-    car.innerHTML = `<div class="track">${names.map((n, i) =>
-      `<div class="slide" style="--bg-img:url(${IMG(n)})"><img src="${IMG(n)}" alt="${alt} — ${i + 1} of ${names.length}" loading="lazy" draggable="false"></div>`).join('')}</div>
+    const slidesHTML = pre ? names.map(sl => sl.outerHTML).join('') : names.map((n, i) =>
+      `<div class="slide" style="--bg-img:url(${IMG(n)})"><img src="${IMG(n)}" alt="${alt} — ${i + 1} of ${names.length}" loading="lazy" draggable="false"></div>`).join('');
+    car.innerHTML = `<div class="track">${slidesHTML}</div>
       <span class="car-count">1/${names.length}</span>
       <button class="car-btn car-prev" aria-label="Previous image" disabled>‹</button>
       <button class="car-btn car-next" aria-label="Next image">›</button>`;
@@ -90,6 +93,7 @@
     let timer = null;
     track.addEventListener('click', e => {
       const slide = e.target.closest('.slide'); if (!slide) return;
+      const zoomable = !!$('img', slide);
       if (timer) {
         clearTimeout(timer); timer = null;
         like(post, true);
@@ -97,7 +101,7 @@
         const h = car.lastElementChild; setTimeout(() => h.remove(), 950);
         return;
       }
-      timer = setTimeout(() => { timer = null; const i = $('img', slide); openLB(i.src, i.alt); }, 260);
+      timer = setTimeout(() => { timer = null; if (zoomable) { const i = $('img', slide); openLB(i.src, i.alt); } }, 260);
     });
   });
 
@@ -147,13 +151,12 @@
       { img: 'lya-sun', stk: 'Class of ’26 🎓', g: 1, t: 'International Business & Trade — Ming Chuan University, Taipei. GPA 90/100 and the highest-scoring thesis in the department.' },
       { img: 'lya-saigon', h: 'VN → TW → the world 🌏', t: 'Studied in Ho Chi Minh City and Taipei, worked with teams in London and around the globe.' },
       { video: 'assets/lya-deloitte.mp4', img: 'lya-deloitte', h: 'Always out & about 📍', t: 'Curious about people, brands and what’s next.' },
-      { img: 'cc-sketches', h: 'What I love', t: 'Turning people insights into ideas, strategies and stories — marketing, research, content & design.' } ] },
-    cconcept: { name: 'c.concept.studio', av: 'cc-toys-1', slides: [
-      { img: 'vn-01', stk: 'Marketing Intern 🧸', t: 'C-Concept Studio · London designer-toy brand · remote · Feb — Jun 2025' },
-      { img: 'vn-16', stk: '+665% 📈', g: 1, t: 'Vietnam’s art-toy boom: Labubu-related sales on Shopee, Lazada & TikTok Shop hit ~5.2B ₫ in Q2 2024.' },
-      { img: 'vn-24', h: 'The new Vietnamese buyer', t: '19–25, students, gift-givers who love cute animal designs and live on TikTok (82.3%) and Instagram (79.7%).' },
-      { img: 'vn-48', h: '3-month comms plan', t: '"Unisaur — Exceed, hit WOW." June → August roadmap with KPIs up to 5M views and 25K new followers.' },
-      { img: 'uni-04', h: 'Psychology-led campaigns', t: 'Hidden Portal · Which Unisaur Are You? · Collector’s Hunt.' } ] },
+      { img: 'seuxe-12', h: 'What I love', t: 'Turning people insights into ideas, strategies and stories — marketing, research, content & design.' } ] },
+    cconcept: { name: 'c.concept.studio', emoji: '🧸', slides: [
+      { card: '<span class="sc__emo">🧸</span><small>Marketing Intern · 2025</small><h3>A London art toy, heading to Vietnam</h3><p>I helped plan the brand’s communications and analyse the Vietnamese market for its expansion.</p>' },
+      { card: '<small>The market</small><b class="sc__big">+665%</b><p>Labubu-related sales on Vietnamese e-commerce, Q2 vs Q1 2024. The toy market hit $1.004B.</p>', alt: 1 },
+      { card: '<small>The new buyer</small><h3>19–25 · student · gift-giver</h3><p>Loves cute animal designs (55%), buys as gifts (47%), lives on TikTok (82%).</p>' },
+      { card: '<small>The plan</small><h3>“Exceed, hit WOW.”</h3><p>3 months: spark curiosity → build value → personalise. Up to 5M views and 25K new followers.</p>', alt: 1 } ] },
     seuxe: { name: 'seuxe.studio', av: 'seuxe-13', slides: [
       { img: 'seuxe-09', stk: '200+ shoots 📸', g: 1, t: 'Co-founded an online studio for outdoor & personal photoshoots.' },
       { img: 'seuxe-13', stk: '65% come back 💌', t: 'Client return rate — built on care from first DM to final gallery.' },
@@ -183,24 +186,30 @@
   const sVid = document.createElement('video');
   Object.assign(sVid, { muted: true, loop: true, playsInline: true, hidden: true });
   media.appendChild(sVid);
+  const sCard = document.createElement('div'); sCard.hidden = true; media.appendChild(sCard);
   let cur = null, si = 0, sTimer = null, lastFocus = null;
   const DUR = 5200;
 
   function show() {
     const s = STORIES[cur], sl = s.slides[si];
     $('.story__name', story).textContent = s.name;
-    $('.story__head img', story).src = IMG(s.av);
+    const hImg = $('.story__head img', story), hAv = $('.story__head .mini-av', story);
+    hImg.hidden = !s.av; if (s.av) hImg.src = IMG(s.av);
+    hAv.dataset.emoji = s.emoji || '';
     $('.story__time', story).textContent = `${si + 1}/${s.slides.length}`;
     bars.innerHTML = s.slides.map((_, i) => `<i class="${i < si ? 'done' : i === si ? 'run' : ''}"><b></b></i>`).join('');
     bars.style.setProperty('--dur', DUR + 'ms');
     media.classList.remove('cover');
     sImg.onload = () => { if (sImg.naturalHeight / sImg.naturalWidth > 1.2) media.classList.add('cover'); };
-    sImg.src = IMG(sl.img); sImg.alt = sl.h || sl.stk || '';
-    sVid.hidden = !sl.video; sImg.hidden = !!sl.video;
+    if (sl.img) { sImg.src = IMG(sl.img); sImg.alt = sl.h || sl.stk || ''; }
+    sVid.hidden = !sl.video; sImg.hidden = !!(sl.video || sl.card);
+    sCard.hidden = !sl.card; sBg.hidden = !!sl.card;
+    if (sl.card) { sCard.className = 'story__card' + (sl.alt ? ' alt' : ''); sCard.innerHTML = sl.card; }
     if (sl.video) { media.classList.add('cover'); sVid.src = sl.video; sVid.play().catch(() => {}); }
     else { sVid.pause(); sVid.removeAttribute('src'); }
-    sBg.style.backgroundImage = `url(${IMG(sl.img)})`;
-    sText.innerHTML = (sl.stk ? `<span class="stk ${sl.g ? 'g' : ''}">${sl.stk}</span>` : '') + (sl.h ? `<h3>${sl.h}</h3>` : '') + `<p>${sl.t}</p>`;
+    sBg.style.backgroundImage = sl.img ? `url(${IMG(sl.img)})` : 'none';
+    sText.hidden = !!sl.card;
+    sText.innerHTML = sl.card ? '' : (sl.stk ? `<span class="stk ${sl.g ? 'g' : ''}">${sl.stk}</span>` : '') + (sl.h ? `<h3>${sl.h}</h3>` : '') + `<p>${sl.t}</p>`;
     clearTimeout(sTimer);
     sTimer = setTimeout(go, DUR);
     $$(`.hl[data-story="${cur}"]`).forEach(h => h.classList.add('seen'));
