@@ -158,7 +158,7 @@
       { card: '<span class="sc__emo">🧸</span><small>Marketing Intern · 2025</small><h3>A London art toy, heading to Vietnam</h3><p>Vietnam market analysis, communication planning and ideas for a new product line.</p>' },
       { card: '<small>The market</small><b class="sc__big">$1.004B</b><p>Vietnam’s toy market in 2024, with the art-toy and blind-box trend booming on Shopee and TikTok Shop.</p>', alt: 1 },
       { card: '<small>The new buyer</small><h3>19–25 · student · gift-giver</h3><p>Loves cute animal designs (55%), buys as gifts (47%), lives on TikTok (82%).</p>' },
-      { img: 'newline-sketches', h: 'New product line ideas ✏️', t: 'I led ideas for a new line: personality-based figure sub-types and lucky-cat inspired designs, built from what Vietnamese buyers love.' } ] },
+      { img: 'newline-figures-story', h: 'New product line ideas ✏️', t: 'I led ideas for a new line: personality-based figure sub-types and lucky-cat inspired designs, built from what Vietnamese buyers love.' } ] },
     seuxe: { name: 'seuxe.studio', av: 'seuxe-13', slides: [
       { img: 'seuxe-09', stk: '200+ shoots 📸', g: 1, t: 'Co-founded an online studio for outdoor & personal photoshoots.' },
       { img: 'seuxe-13', stk: '65% come back 💌', t: 'Client return rate — built on care from first DM to final gallery.' },
