@@ -535,3 +535,13 @@ mark{background:linear-gradient(transparent 55%,#FFD3E3 55%);color:inherit}
 
 .about-org--space{border-left-color:#00B8E0}
 .about-org--space small{color:#0090B5}
+
+.results5{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
+.results5 div{grid-column:span 2;background:#0B1440;color:#fff;border-radius:18px;padding:14px 10px;text-align:center;display:flex;flex-direction:column;gap:2px;transition:transform .25s}
+.results5 div:nth-child(n+4){grid-column:span 3}
+.results5 div:hover{transform:translateY(-4px)}
+.results5 small{font:500 11px var(--mono);text-transform:uppercase;letter-spacing:.06em;color:#7FE3FF}
+.results5 b{font:800 clamp(24px,2.4vw,30px)/1.1 var(--display);letter-spacing:-.03em}
+.results5 span{font-size:12.5px;opacity:.85}
+.results5 .results5__hot{background:var(--grad)}
+.results5 .results5__hot small{color:#fff}
