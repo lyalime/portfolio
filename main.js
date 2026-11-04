@@ -142,15 +142,18 @@
 
   /* ---------- stories ---------- */
   const STORIES = {
-    about: { name: 'lya.nguyen', av: 'lya-portrait', slides: [
-      { img: 'lya-portrait', stk: 'Hi, I\'m Lya 👋', t: 'A globally curious creative with a business mind.' },
-      { img: 'lya-grad', stk: 'Class of ’26 🎓', g: 1, t: 'International Business & Trade — Ming Chuan University, Taipei. GPA 90/100 and the highest-scoring thesis in the department.' },
-      { img: 'seuxe-12', h: 'VN → TW → the world 🌏', t: 'Studied in Ho Chi Minh City and Taipei, worked with teams in London and around the globe.' },
+    about: { name: 'lya.nguyen', av: 'lya-avatar', slides: [
+      { img: 'lya-neon', stk: 'Hi, I’m Lya 👋', t: 'A globally curious creative with a business mind.' },
+      { img: 'lya-sun', stk: 'Class of ’26 🎓', g: 1, t: 'International Business & Trade — Ming Chuan University, Taipei. GPA 90/100 and the highest-scoring thesis in the department.' },
+      { img: 'lya-saigon', h: 'VN → TW → the world 🌏', t: 'Studied in Ho Chi Minh City and Taipei, worked with teams in London and around the globe.' },
+      { video: 'assets/lya-deloitte.mp4', img: 'lya-deloitte', h: 'Always out & about 📍', t: 'Curious about people, brands and what’s next.' },
       { img: 'cc-sketches', h: 'What I love', t: 'Turning people insights into ideas, strategies and stories — marketing, research, content & design.' } ] },
     cconcept: { name: 'c.concept.studio', av: 'cc-toys-1', slides: [
-      { img: 'cc-toys-1', stk: 'Marketing Intern 🧸', t: 'C-Concept Studio · toy company · London, UK (remote) · Feb — Jun 2025' },
-      { img: 'cc-sketches', h: 'Product ideation', t: 'New toy concepts built from market analysis and consumer-behaviour insights.' },
-      { img: 'cc-plan-1', h: 'Content plan', t: 'Promotional materials and creative assets with one consistent visual brand across platforms.' } ] },
+      { img: 'vn-01', stk: 'Marketing Intern 🧸', t: 'C-Concept Studio · London designer-toy brand · remote · Feb — Jun 2025' },
+      { img: 'vn-16', stk: '+665% 📈', g: 1, t: 'Vietnam’s art-toy boom: Labubu-related sales on Shopee, Lazada & TikTok Shop hit ~5.2B ₫ in Q2 2024.' },
+      { img: 'vn-24', h: 'The new Vietnamese buyer', t: '19–25, students, gift-givers who love cute animal designs and live on TikTok (82.3%) and Instagram (79.7%).' },
+      { img: 'vn-48', h: '3-month comms plan', t: '"Unisaur — Exceed, hit WOW." June → August roadmap with KPIs up to 5M views and 25K new followers.' },
+      { img: 'uni-04', h: 'Psychology-led campaigns', t: 'Hidden Portal · Which Unisaur Are You? · Collector’s Hunt.' } ] },
     seuxe: { name: 'seuxe.studio', av: 'seuxe-13', slides: [
       { img: 'seuxe-09', stk: '200+ shoots 📸', g: 1, t: 'Co-founded an online studio for outdoor & personal photoshoots.' },
       { img: 'seuxe-13', stk: '65% come back 💌', t: 'Client return rate — built on care from first DM to final gallery.' },
@@ -168,8 +171,8 @@
       { img: 'yl-kv-2', stk: 'Core team ⬡', t: 'Youpreneur Launchpad 2024 — content creator, photographer & designer.' },
       { img: 'yl-recruit', h: 'Innovation beyond limit', t: 'Community pages that reached 11,000+ views and 14,000+ page likes.' },
       { img: 'yl-event', stk: '12,000+ followers', g: 1, t: '1,000+ avg views · 80+ interactions/post · 10+ media partners.' } ] },
-    awards: { name: 'lya.nguyen', av: 'lya-grad', slides: [
-      { img: 'lya-grad', stk: 'Best Graduation Thesis 🏆', g: 1, t: 'Ming Chuan University, 2026 — highest score in the department.' },
+    awards: { name: 'lya.nguyen', av: 'lya-avatar', slides: [
+      { img: 'lya-neon', stk: 'Best Graduation Thesis 🏆', g: 1, t: 'Ming Chuan University, 2026 — highest score in the department.' },
       { img: 'cert-nccu-champion', stk: 'First Prize 🥇', t: 'NCCU International Trade & Business Thematic Competition.' },
       { img: 'cert-gitm', h: 'GITM 2025 presenter', t: 'Blockchain vs. greenwashing perception in fashion brands.' },
       { img: 'cert-competition', h: 'NSTC Research Grant', t: 'Top 15 of 139 proposals university-wide.' } ] }
@@ -177,6 +180,9 @@
   const ORDER = Object.keys(STORIES);
   const story = $('.story'), bars = $('.story__bars', story), media = $('.story__media', story),
         sImg = $('img', media), sBg = $('.story__bg', story), sText = $('.story__text', story);
+  const sVid = document.createElement('video');
+  Object.assign(sVid, { muted: true, loop: true, playsInline: true, hidden: true });
+  media.appendChild(sVid);
   let cur = null, si = 0, sTimer = null, lastFocus = null;
   const DUR = 5200;
 
@@ -190,6 +196,9 @@
     media.classList.remove('cover');
     sImg.onload = () => { if (sImg.naturalHeight / sImg.naturalWidth > 1.2) media.classList.add('cover'); };
     sImg.src = IMG(sl.img); sImg.alt = sl.h || sl.stk || '';
+    sVid.hidden = !sl.video; sImg.hidden = !!sl.video;
+    if (sl.video) { media.classList.add('cover'); sVid.src = sl.video; sVid.play().catch(() => {}); }
+    else { sVid.pause(); sVid.removeAttribute('src'); }
     sBg.style.backgroundImage = `url(${IMG(sl.img)})`;
     sText.innerHTML = (sl.stk ? `<span class="stk ${sl.g ? 'g' : ''}">${sl.stk}</span>` : '') + (sl.h ? `<h3>${sl.h}</h3>` : '') + `<p>${sl.t}</p>`;
     clearTimeout(sTimer);
@@ -209,7 +218,7 @@
     show(); $('.story__close', story).focus();
   }
   function closeStory() {
-    clearTimeout(sTimer); story.hidden = true; document.body.style.overflow = '';
+    clearTimeout(sTimer); sVid.pause(); story.hidden = true; document.body.style.overflow = '';
     if (lastFocus) lastFocus.focus();
   }
   $$('[data-story]').forEach(b => b.addEventListener('click', () => openStory(b.dataset.story)));
