@@ -266,10 +266,23 @@
   if (form) {
     const ta = $('textarea', form);
     $$('[data-q]', form).forEach(b => b.addEventListener('click', () => { ta.value = b.dataset.q; ta.focus(); }));
-    form.addEventListener('submit', e => {
+    const status = $('.composer__status', form), btn = $('.send', form);
+    const setStatus = (msg, kind) => { status.textContent = msg; status.className = 'composer__status' + (kind ? ' is-' + kind : ''); };
+    form.addEventListener('submit', async e => {
       e.preventDefault();
-      const body = ta.value.trim() || 'Hi Lya!';
-      location.href = `mailto:lyanguyen.space@gmail.com?subject=${encodeURIComponent('Hello from your portfolio 💌')}&body=${encodeURIComponent(body)}`;
+      if (!form.reportValidity()) return;
+      btn.disabled = true; setStatus('Sending…');
+      try {
+        const res = await fetch(form.action, { method: 'POST', headers: { Accept: 'application/json' }, body: new FormData(form) });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok || data.success === false) throw new Error(data.message || 'Request failed');
+        form.reset();
+        setStatus('Sent ✓ Thanks! Lya will get back to you soon.', 'ok');
+      } catch (err) {
+        setStatus('Couldn’t send right now. Please email lyanguyen.space@gmail.com instead.', 'err');
+      } finally {
+        btn.disabled = false;
+      }
     });
   }
 })();

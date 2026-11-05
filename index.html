@@ -13,7 +13,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=20261105d">
+<link rel="stylesheet" href="style.css?v=20261105e">
 </head>
 <body>
 <div class="blobs" aria-hidden="true"><i></i><i></i><i></i></div>
@@ -407,16 +407,29 @@
       </div>
       <p class="muted small">📍 Shilin District, Taipei, Taiwan</p>
     </div>
-    <form class="composer" data-composer>
+    <form class="composer" data-composer action="https://api.web3forms.com/submit" method="POST">
+      <input type="hidden" name="access_key" value="6ff5266f-b4f8-4720-a127-113b6cbb8a9b">
+      <input type="hidden" name="subject" value="New message from your portfolio 💌">
+      <input type="hidden" name="from_name" value="Lya Nguyen Portfolio">
+      <input type="checkbox" name="botcheck" class="sr" tabindex="-1" autocomplete="off" aria-hidden="true">
       <div class="composer__head"><span class="mini-av ring-sm"><img src="assets/img/lya-portrait.jpg" alt=""></span><b>Message Lya</b></div>
       <div class="quick">
         <button type="button" data-q="Hi Lya! I'd love to collaborate on a project with you.">🤝 Let's collaborate</button>
         <button type="button" data-q="Hi Lya! I have a job opportunity I think you'd be great for.">💼 Job opportunity</button>
         <button type="button" data-q="Hi Lya! Just saying hi 👋">👋 Just saying hi</button>
       </div>
+      <div class="composer__row">
+        <label class="sr" for="dm-name">Your name</label>
+        <input id="dm-name" name="name" type="text" placeholder="Your name" autocomplete="name" required>
+        <label class="sr" for="dm-email">Your email</label>
+        <input id="dm-email" name="email" type="email" placeholder="Your email" autocomplete="email" required>
+      </div>
       <label class="sr" for="dm-text">Your message</label>
-      <textarea id="dm-text" rows="3" placeholder="Write a message…"></textarea>
-      <button class="send" type="submit">Send via email <svg viewBox="0 0 24 24"><path d="M3 11l18-8-8 18-2-8z" fill="currentColor"/></svg></button>
+      <textarea id="dm-text" name="message" rows="3" placeholder="Write a message…" required></textarea>
+      <div class="composer__foot">
+        <p class="composer__status" role="status" aria-live="polite"></p>
+        <button class="send" type="submit">Send <svg viewBox="0 0 24 24"><path d="M3 11l18-8-8 18-2-8z" fill="currentColor"/></svg></button>
+      </div>
     </form>
   </div>
   <footer class="foot mono small">© 2026 Lya Nguyen · Made with curiosity in Taipei</footer>
@@ -445,6 +458,6 @@
 </div>
 
 <div class="lightbox" hidden><button class="lightbox__close" aria-label="Close">✕</button><img alt=""></div>
-<script src="main.js?v=20261105d"></script>
+<script src="main.js?v=20261105e"></script>
 </body>
 </html>
