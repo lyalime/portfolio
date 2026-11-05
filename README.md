@@ -2,6 +2,8 @@
 
 A social-app-style creative portfolio (stories, posts, insights, DMs) for **Lya Nguyen** — marketing, content & strategy, International Business graduate based in Taipei.
 
+Live: https://lyaportfolio.vercel.app/ (also https://lyalime.github.io/portfolio/)
+
 Static site: plain HTML, CSS and JavaScript, no build step.
 
 - `index.html` — content
