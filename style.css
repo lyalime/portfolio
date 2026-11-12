@@ -624,3 +624,5 @@ mark{background:linear-gradient(transparent 55%,#FFD3E3 55%);color:inherit}
 .samples__grid .cap-more{margin:0 12px 12px;font-size:13px}
 .samples__grid .sample.is-open .sample__cap{max-height:260px;overflow-y:auto}
 @media (max-width:760px){.samples__grid{display:flex}}
+
+.about-org p+p{margin-top:8px}
