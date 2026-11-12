@@ -579,3 +579,16 @@ mark{background:linear-gradient(transparent 55%,#FFD3E3 55%);color:inherit}
 .composer__status.is-err{color:#D62F6C;font-weight:600}
 .send[disabled]{opacity:.6;cursor:wait;transform:none}
 @media (max-width:640px){.composer__row{grid-template-columns:1fr}}
+
+/* certificates section */
+.certsec{padding:70px 0 40px}
+.cert-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.cert-card--grid{width:auto;transform:none!important;display:flex;flex-direction:column}
+.cert-card--grid:hover{transform:translateY(-6px)!important}
+.cert-card--grid img{aspect-ratio:4/3;object-fit:contain;background:#FBF7F2;cursor:zoom-in}
+.cert-card--grid figcaption{flex-direction:column;align-items:flex-start;gap:4px;padding:12px 4px 2px}
+.cert-card--grid b{font:800 15.5px/1.25 var(--display)}
+.cert-card--grid figcaption span{text-align:left}
+.cert-tag{font:600 10.5px var(--mono)!important;text-transform:uppercase;letter-spacing:.06em;color:var(--purple)!important;background:#F1ECFF;padding:3px 8px;border-radius:6px}
+@media (max-width:1000px){.cert-grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:640px){.cert-grid{grid-template-columns:1fr 1fr;gap:10px}.cert-card--grid b{font-size:13.5px}.cert-card--grid figcaption span{font-size:11.5px}}
