@@ -107,6 +107,16 @@
     });
   });
 
+  /* ---------- caption "more" toggles ---------- */
+  $$('.sample').forEach(post => {
+    const capEl = $('.sample__cap', post), more = $('.cap-more', post);
+    if (capEl.scrollHeight <= capEl.clientHeight + 4) { more.hidden = true; return; }
+    more.addEventListener('click', () => {
+      const open = post.classList.toggle('is-open');
+      more.textContent = open ? 'less' : '… more';
+    });
+  });
+
   /* ---------- studio grid ---------- */
   const shots = [
     ['seuxe-09', 'post office mornings'], ['seuxe-13', 'áo dài season'], ['seuxe-06', 'temple light'],
