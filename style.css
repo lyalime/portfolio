@@ -609,3 +609,18 @@ mark{background:linear-gradient(transparent 55%,#FFD3E3 55%);color:inherit}
   .tab{flex:1 0 auto;justify-content:center;padding:14px 8px;font-size:10.5px}
   .tab svg{width:14px;height:14px}
 }
+
+/* content samples: compact horizontal strip */
+.samples__grid{display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px 4px 18px;scrollbar-width:thin;align-items:flex-start}
+.samples__grid .sample{flex:0 0 min(320px,82vw);scroll-snap-align:start}
+.samples__grid .carousel{aspect-ratio:1/1}
+.samples__grid .sample__cap{-webkit-line-clamp:3;font-size:13.5px}
+.samples__grid .post__head{padding:10px 12px}
+.samples__grid .post__head small{display:none}
+.samples__grid .tagpill{font-size:10px}
+.samples__grid .post__actions{padding:8px 12px 4px;font-size:18px}
+.samples__grid .like svg{width:22px;height:22px}
+.samples__grid .post__cap{padding:4px 12px 6px}
+.samples__grid .cap-more{margin:0 12px 12px;font-size:13px}
+.samples__grid .sample.is-open .sample__cap{max-height:260px;overflow-y:auto}
+@media (max-width:760px){.samples__grid{display:flex}}
